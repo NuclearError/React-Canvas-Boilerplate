@@ -3,44 +3,41 @@ import PropTypes from 'prop-types';
 
 const canvasStyle = {
   border: '1px dotted',
-  background: 'ghostwhite',
+  background: 'thistle',
 };
 
 class Canvas extends Component {
-  static setupCanvas() {
-    const canvas = this.canvas;
-    const stage = canvas.getContext('2d');
-    stage.font = '24px Helvetica';
-    stage.textAlign = 'left';
-    stage.textBaseline = 'top';
-    stage.fillStyle = '#ff0000';
-    stage.lineWidth = 2;
-    stage.strokeStyle = '#000';
-    this.renderMessage(stage, this.props.message);
-    console.log('setupCanvas complete!');
-  }
-
-  static renderMessage(stage, message) {
-    stage.fillText(message, 100, 100);
-  }
-
   constructor(props) {
     super(props);
 
-    // method bindings go here
-    this.constructor.setupCanvas = this.constructor.setupCanvas.bind(this);
-    this.constructor.renderMessage = this.constructor.renderMessage.bind(this);
+    this.setupCanvas = this.setupCanvas.bind(this);
+    this.renderMessage = this.renderMessage.bind(this);
   }
 
   componentDidMount() {
     this.setupCanvas();
   }
 
+  setupCanvas() {
+    const { canvas } = this;
+    const stage = canvas.getContext('2d');
+    stage.font = '24px Helvetica';
+    stage.textAlign = 'left';
+    stage.textBaseline = 'top';
+    stage.fillStyle = '#000';
+    stage.lineWidth = 2;
+    this.renderMessage(stage, this.props.message);
+  }
+
+  renderMessage(stage, message) {
+    stage.fillText(message, 100, 100);
+  }
+
   render() {
     return (
       <canvas
         style={canvasStyle}
-        ref={c => { this.canvas = c }}
+        ref={(c) => { this.canvas = c; }}
         width={640}
         height={425}
       />
