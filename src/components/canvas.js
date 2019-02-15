@@ -8,7 +8,7 @@ const canvasStyle = {
 
 class Canvas extends Component {
   static setupCanvas() {
-    const canvas = this.refs.canvas;
+    const canvas = this.canvas;
     const stage = canvas.getContext('2d');
     stage.font = '24px Helvetica';
     stage.textAlign = 'left';
@@ -29,7 +29,6 @@ class Canvas extends Component {
 
     // method bindings go here
     this.constructor.setupCanvas = this.constructor.setupCanvas.bind(this);
-
     this.constructor.renderMessage = this.constructor.renderMessage.bind(this);
   }
 
@@ -41,7 +40,7 @@ class Canvas extends Component {
     return (
       <canvas
         style={canvasStyle}
-        ref="canvas"
+        ref={c => { this.canvas = c }}
         width={640}
         height={425}
       />
