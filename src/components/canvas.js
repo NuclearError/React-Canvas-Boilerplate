@@ -15,7 +15,6 @@ const allGameImageUrls = [
 ];
 
 const allGameImages = [];
-let assetCount = 0;
 
 class Canvas extends Component {
   constructor(props) {
@@ -26,21 +25,7 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    // loading the image file now rather than waiting later
-    // - for bigger projects, set up a real system for preloading assets
-
-    for (let i = 0; i < allGameImageUrls.length; i++) {
-      const img = new Image();
-      img.onload = () => {
-        assetCount++;
-        if (assetCount === allGameImageUrls.length) {
-          console.log('All the images finished loading: ', allGameImages);
-          this.setupCanvas();
-        }
-      };
-      img.src = allGameImageUrls[i];
-      allGameImages.push(img);
-    }
+    this.loadImages(allGameImageUrls);
   }
 
   setupCanvas() {
@@ -53,6 +38,22 @@ class Canvas extends Component {
     stage.lineWidth = 2;
     this.renderImage(stage);
     this.renderMessage(stage, this.props.message);
+  }
+
+  loadImages(assets) {
+    let assetCount = 0;
+    assets.map((url) => {
+      const img = new Image();
+      img.onload = () => {
+        assetCount++;
+        if (assetCount === allGameImageUrls.length) {
+          console.log('All images loaded: ', allGameImages);
+          this.setupCanvas();
+        }
+      };
+      img.src = url;
+      allGameImages.push(img);
+    });
   }
 
   renderMessage(stage, message) {
